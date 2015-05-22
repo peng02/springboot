@@ -24,42 +24,9 @@
 <script src="assets/DT_bootstrap.js"></script>
 </head>
 <body>
-	<div class="navbar navbar-fixed-top"></div>
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span3" id="sidebar">
-				<ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
-					<li class="active" id="disManagerButton"><a
-						onclick="disclineManager()" href="#"><i
-							class="icon-chevron-right"></i> disclineManagerment </a></li>
-					<li id="stuManagerButton"><a onclick="studentManager()"
-						href="#"><i class="icon-chevron-right"></i> studentManagerment</a>
-					</li>
-					<li id="uploadFile"><a onclick="uploadFile()" href="#"><i
-							class="icon-chevron-right"></i> fildUpload </a></li>
-				</ul>
-			</div>
-			<div class="span9" id="content">
-				<div class="row-fluid">
-					<div class="block">
-						<div class="navbar navbar-inner block-header">
-							<div class="muted pull-left">Bootstrap dataTables</div>
-						</div>
-						<div class="block-content collapse in">
-							<div class="span12">
-								<div id="jquerydatatable"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<hr>
-		<footer>
-			<p>&copy; Vincent Gabriel 2013</p>
-		</footer>
-	</div>
+	<div id="homePage"></div>
 	<script type="text/jsx">
+
         var DisclineModalComponent = React.createClass({
         getInitialState : function(){
         return ({data : []});
@@ -114,16 +81,12 @@
         <input type="text" name="praticeBase" defaultValue={this.props.praticeBase}  class="input-xlarge"></input>
         </div>
         </div>
-
-
         <div class="control-group">
         <label class="control-label" text="input01">实习基地</label>
         <div class="controls">
         <div id="professionSelectedstudentTable"></div>
         </div>
         </div>
-
-
         <div class="control-group">
         <label class="control-label" text="input01">师资力量</label>
         <div class="controls">
@@ -159,12 +122,6 @@
         );
         }
         });
-
-
-
-
-
-
         var StudentModalComponent = React.createClass({
         getInitialState : function(){
         return ({data : {},professions:[]});
@@ -179,7 +136,6 @@
         this.setState({data : data,professions : this.state.professions});
         }.bind(this)
         });
-
         $.ajax({
         url : '/loadAllProfession',
         dataType : 'json',
@@ -190,7 +146,6 @@
         });
         },
         render : function(){
-
         var self = this;
         var row = this.props;
         return (
@@ -203,8 +158,6 @@
         </div>
         <div className="modal-body">
         <form name="Edit" action="/admitEditStudent" method="get">
-
-
         <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
         <tr>
@@ -330,15 +283,12 @@
         <td>{row.yewuke2ma+""}</td>
         <td>{row.yewuke2+""}</td>
         <td>
-
-
         <select name="zhuanyefangxiang" class="form-control">
         <option default>{row.zhuanyefangxiang}</option>,
         {
         this.state.professions.map(function(profession){
                 if(profession!==row.zhuanyefangxiang){return ( <option>{profession}</option>);}
         })
-
         }
         </select>
         </td>
@@ -384,8 +334,6 @@
 
         var table = $('#studentTable').dataTable();
         $('#studentTable tbody').on( 'click', 'tr', function () {
-
-
         var selectTr = $(this)[0];
         var id = (selectTr.childNodes[0].firstChild == null) ? " " : selectTr.childNodes[0].firstChild.data;
         var baomingdiandaima = (selectTr.childNodes[1].firstChild == null) ? " " : selectTr.childNodes[1].firstChild.data;
@@ -726,8 +674,6 @@
         );
         }
         });
-
-
         var UploadFileComponent = React.createClass({
         render : function(){
         return (
@@ -741,27 +687,70 @@
         });
 
 
-        function studentManager(){
-        $('#disManagerButton').removeClass("active");
-        $('#uploadFile').removeClass("active");
-        $('#stuManagerButton').addClass("active");
-        React.render(<StuComponent deleteFunction='deleteStudent'/>,document.getElementById('jquerydatatable'));
-        }
-        function disclineManager(){
-        $('#stuManagerButton').removeClass("active");
-        $('#uploadFile').removeClass("active");
-        $('#disManagerButton').addClass("active");
-        React.render(<DislineComponent/>,document.getElementById('jquerydatatable'));
-        }
-        function uploadFile(){
-        $('#stuManagerButton').removeClass("active");
-        $('#disManagerButton').removeClass("active");
-        $('#uploadFile').addClass("active");
-        React.render(<UploadFileComponent/>,document.getElementById('jquerydatatable'));
-        }
-        $(document).ready(function(){
-        disclineManager();
+        var HomePageComponent = React.createClass({
+                getInitialState : function(){
+                        return ({view : <DislineComponent/>});
+                },
+                disclineManager : function(){
+                        $('#stuManagerButton').removeClass("active");
+                        $('#uploadFile').removeClass("active");
+                        $('#disManagerButton').addClass("active");
+                        this.setState({view : <DislineComponent/>});
+                },
+                studentManager : function(){
+                        $('#disManagerButton').removeClass("active");
+                        $('#uploadFile').removeClass("active");
+                        $('#stuManagerButton').addClass("active");
+                        this.setState({view : <StuComponent/>});
+                },
+
+                uploadFile : function(){
+                        $('#stuManagerButton').removeClass("active");
+                        $('#disManagerButton').removeClass("active");
+                        $('#uploadFile').addClass("active");
+                        this.setState({view : <UploadFileComponent/>});
+                },
+                render : function(){
+                        return (
+                                <div className="navbar navbar-fixed-top"></div>,
+                                        <div className="container-fluid">
+                                                <div className="row-fluid">
+                                                        <div className="span3" id="sidebar">
+                                                                <ul className="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                                                                        <li className="active" id="disManagerButton"><a
+                                                                                onClick={this.disclineManager} href="#"><i
+                                                                                className="icon-chevron-right"></i> disclineManagerment </a></li>
+                                                                        <li id="stuManagerButton"><a onClick={this.studentManager}
+                                                                                                     href="#"><i className="icon-chevron-right"></i> studentManagerment</a>
+                                                                        </li>
+                                                                        <li id="uploadFile"><a onClick={this.uploadFile} href="#"><i
+                                                                                className="icon-chevron-right"></i> fildUpload </a></li>
+                                                                </ul>
+                                                        </div>
+                                                        <div className="span9" id="content">
+                                                                <div className="row-fluid">
+                                                                        <div className="block">
+                                                                                <div className="navbar navbar-inner block-header">
+                                                                                        <div className="muted pull-left">Bootstrap dataTables</div>
+                                                                                </div>
+                                                                                <div className="block-content collapse in">
+                                                                                        <div className="span12">
+                                                                                                {this.state.view}
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <footer>
+                                                        <p>&copy; Vincent Gabriel 2013</p>
+                                                </footer>
+                                        </div>
+                        );
+
+                }
         });
+        React.render(<HomePageComponent />,document.getElementById('homePage'));
         </script>
 </body>
 </html>

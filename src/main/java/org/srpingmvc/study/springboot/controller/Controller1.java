@@ -61,11 +61,11 @@ public class Controller1 {
 	@ResponseBody
 	public List<String> loadAllTeachers(){
 		List<String> teachers = new ArrayList<String>();
-		teachers.add("才振功");
-		teachers.add("尹可挺");
-		teachers.add("李启雷");
-		teachers.add("梁秀波");
-		teachers.add("其他");
+		teachers.add("teacher1");
+		teachers.add("teacher2");
+		teachers.add("teacher3");
+		teachers.add("teacher4");
+		teachers.add("other");
 		return teachers;
 	}
 	@RequestMapping("/loadAllProfession")
@@ -91,7 +91,8 @@ public class Controller1 {
 		return "redirect:/";
 	}
 	@RequestMapping(value="/uploadFile", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
+	@ResponseBody
+    public String handleFileUpload(@RequestParam("name") String name,
             @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
