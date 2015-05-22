@@ -29,7 +29,7 @@ public class Controller1 {
 	
 	@RequestMapping("/")
 	public String userManager(){
-		return "index";
+		return "index.html";
 	}
 	@RequestMapping("/loadStudentList")
 	@ResponseBody
