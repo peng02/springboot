@@ -677,10 +677,10 @@
         var UploadFileComponent = React.createClass({
         render : function(){
         return (
-        <form method="POST" enctype="multipart/form-data" action="/uploadFile">
+        <form method="post" enctype="multipart/form-data" action="/uploadFile">
         File to upload: <input type="file" name="file" /><br />
-        Name: <input type="text" name="name" /><br /> <br />
-        <input type="submit" value="Upload" /> Press here to upload the file!
+        Name: <input type="text" name="fileName" /><br /> <br />
+        <input type="submit" value="上传"/> Press here to upload the file!
         </form>
         );
         }

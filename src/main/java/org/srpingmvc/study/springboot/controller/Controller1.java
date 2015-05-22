@@ -91,9 +91,7 @@ public class Controller1 {
 		return "redirect:/";
 	}
 	@RequestMapping(value="/uploadFile", method=RequestMethod.POST)
-	@ResponseBody
-    public String handleFileUpload(@RequestParam("name") String name,
-            @RequestParam("file") MultipartFile file){
+    public @ResponseBody String handleFileUpload(@RequestParam("fileName") String name,@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
